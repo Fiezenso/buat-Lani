@@ -62,9 +62,9 @@
             background-color: #f8f9fa;
             color: #d63384;
             border: 2px solid #ff477e;
-            /* Ubah absolute menjadi relative agar awalnya bersebelahan */
             position: relative; 
-            /* Hapus top/left jika ada agar tidak melompat sebelum di-hover */
+            transition: 0.2s ease; /* Tambahkan ini agar larinya smooth */
+            touch-action: none;   /* Tambahkan ini agar layar HP tidak scroll saat mengejar tombol */
         }
 
         .hidden { display: none; }
@@ -92,7 +92,7 @@
             <h1>Hai Lani, mau jadi Valentine-ku tahun ini? ❤️</h1>
             <div class="btn-group">
                 <button id="yesBtn" onclick="showLove()">Mau!</button>
-                <button id="noBtn" onmouseover="moveNo()">Nggak</button>
+                <button id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">Nggak</button>
             </div>
         </div>
 
@@ -108,15 +108,24 @@
     </audio>
 
     <script>
-        function moveNo() {
+        function moveNo(e) {
+            // Jika dipicu oleh sentuhan di HP, hentikan fungsi klik standarnya
+            if (e && e.type === 'touchstart') e.preventDefault();
+
             const btn = document.getElementById('noBtn');
-            // Menghitung batas layar agar tombol tidak keluar jendela
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
             
+            // Menghitung batas layar agar tombol tidak keluar jendela
+            // Menggunakan Math.max dan Math.min agar lebih aman di layar kecil
+            const maxX = window.innerWidth - btn.offsetWidth - 20;
+            const maxY = window.innerHeight - btn.offsetHeight - 20;
+
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            
+            btn.style.position = 'fixed';
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
-            btn.style.position = 'fixed';
+            btn.style.zIndex = '999'; // Memastikan tombol selalu di depan
         }
 
         function showLove() {
@@ -136,4 +145,5 @@
         }
     </script>
 </body>
+
 </html>
