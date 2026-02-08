@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        
+        body {
+            background-color: #ffdde1;
+            background-image: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 85%;
+            transition: all 0.5s ease;
+        }
+
+        h1 { color: #d63384; font-size: 24px; }
+        
+        .gif-box img {
+            width: 180px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            height: 50px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #yesBtn { background-color: #ff477e; color: white; box-shadow: 0 4px 15px rgba(255, 71, 126, 0.3); }
+        
+        #noBtn {
+            background-color: #f8f9fa;
+            color: #d63384;
+            border: 2px solid #ff477e;
+            /* Ubah absolute menjadi relative agar awalnya bersebelahan */
+            position: relative; 
+            /* Hapus top/left jika ada agar tidak melompat sebelum di-hover */
+        }
+
+        .hidden { display: none; }
+
+        /* Animasi Jantung */
+        .heart {
+            color: #d63384;
+            font-size: 50px;
+            animation: beat .25s infinite alternate;
+            transform-origin: center;
+        }
+
+        @keyframes beat {
+            to { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <div id="questionContent">
+            <div class="gif-box">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXptMmx3bm9pZ3R4eG5oZzR4eG5oZzR4eG5oZzR4eG5oZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif">
+            </div>
+            <h1>Hai Lani, mau jadi Valentine-ku tahun ini? ❤️</h1>
+            <div class="btn-group">
+                <button id="yesBtn" onclick="showLove()">Mau!</button>
+                <button id="noBtn" onmouseover="moveNo()">Nggak</button>
+            </div>
+        </div>
+
+        <div id="answerContent" class="hidden">
+            <div class="heart">❤️</div>
+            <h1 style="margin-top: 20px;">Yeeayy!</h1>
+            <p>Terima kasih sudah memilih, Lani! Aku punya hadiah spesial buat kamu nanti.</p>
+        </div>
+    </div>
+
+    <audio id="romanticMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function moveNo() {
+            const btn = document.getElementById('noBtn');
+            // Menghitung batas layar agar tombol tidak keluar jendela
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
+            
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            btn.style.position = 'fixed';
+        }
+
+        function showLove() {
+            // Sembunyikan pertanyaan, tampilkan jawaban
+            document.getElementById('questionContent').classList.add('hidden');
+            document.getElementById('answerContent').classList.remove('hidden');
+            
+            // Putar musik
+            const music = document.getElementById('romanticMusic');
+            music.play().catch(e => console.log("Musik butuh interaksi user"));
+
+            // Tambahkan efek warna background
+            document.body.style.background = "radial-gradient(circle, #ffafbd, #ffc3a0)";
+
+            // Opsional: Tambah efek konfeti atau suara sorakan di sini
+            alert("Jawaban yang pintar! ❤️");
+        }
+    </script>
+</body>
+</html>
