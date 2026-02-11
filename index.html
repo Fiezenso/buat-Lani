@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine Surprise for Lani</title>
+    <title>Valentine Surprise</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
         
@@ -17,7 +17,6 @@
             margin: 0;
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
-            transition: background 1s ease;
         }
 
         .card {
@@ -28,15 +27,13 @@
             text-align: center;
             max-width: 400px;
             width: 85%;
-            z-index: 10;
-            backdrop-filter: blur(5px);
+            transition: all 0.5s ease;
         }
 
-        h1 { color: #d63384; font-size: 24px; margin-bottom: 10px; }
-        p { color: #555; line-height: 1.6; }
+        h1 { color: #d63384; font-size: 24px; }
         
         .gif-box img {
-            width: 150px;
+            width: 180px;
             border-radius: 15px;
             margin-bottom: 20px;
         }
@@ -44,15 +41,14 @@
         .gif-container img {
             width: 150px;
             margin-bottom: 20px;
-        }
-        
+        }    
+
         .btn-group {
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 15px;
             margin-top: 30px;
-            min-height: 50px;
+            height: 50px;
         }
 
         button {
@@ -65,65 +61,43 @@
             transition: 0.3s;
         }
 
-        #yesBtn { 
-            background-color: #ff477e; 
-            color: white; 
-            box-shadow: 0 4px 15px rgba(255, 71, 126, 0.3); 
-        }
-
+        #yesBtn { background-color: #ff477e; color: white; box-shadow: 0 4px 15px rgba(255, 71, 126, 0.3); }
+        
         #noBtn {
             background-color: #f8f9fa;
             color: #d63384;
             border: 2px solid #ff477e;
             position: relative; 
-            touch-action: none;
+            transition: 0.2s ease; /* Tambahkan ini agar larinya smooth */
+            touch-action: none;   /* Tambahkan ini agar layar HP tidak scroll saat mengejar tombol */
         }
 
         .hidden { display: none; }
 
         /* Animasi Jantung */
-        .heart-icon {
+        .heart {
             color: #d63384;
-            font-size: 60px;
-            animation: beat .3s infinite alternate;
-            margin-bottom: 10px;
+            font-size: 50px;
+            animation: beat .25s infinite alternate;
+            transform-origin: center;
         }
 
         @keyframes beat {
             to { transform: scale(1.2); }
         }
-
-        /* Hujan Hati */
-        .falling-heart {
-            position: absolute;
-            color: #ff4d6d;
-            font-size: 20px;
-            user-select: none;
-            pointer-events: none;
-            animation: fall linear forwards;
-            z-index: 1;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh); }
-        }
     </style>
 </head>
 <body>
 
-    <audio id="bgMusic" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
-    </audio>
-
     <div class="card" id="mainCard">
         <div id="questionContent">
             <div class="gif-box">
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXptMmx3bm9pZ3R4eG5oZzR4eG5oZzR4eG5oZzR4eG5oZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute Bear">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXptMmx3bm9pZ3R4eG5oZzR4eG5oZzR4eG5oZzR4eG5oZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif">
             </div>
             <h1>Hai Lani, mau jadi Valentine-ku tahun ini? ❤️</h1>
             <div class="btn-group">
-                <button id="yesBtn" onclick="celebrate()">Mau!</button>
-                <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">Nggak</button>
+                <button id="yesBtn" onclick="showLove()">Mau!</button>
+                <button id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">Nggak</button>
             </div>
         </div>
 
@@ -131,76 +105,58 @@
             <div class="gif-container">
                 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXN6ZzR3eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHgmc2lkPWc/KztT2c4u8mYYUiMKdJ/giphy.gif" alt="Happy Bear">
             </div>
-            <h1>Yeeayy!</h1>
-            <p>Terima kasih sudah memilih, Lani! <br> Aku punya hadiah spesial buat kamu tanggal 14 Februari nanti. See you! ✨</p>
+            <h1 style="margin-top: 25px;">Yeeayy!</h1>
+            <p>Terima kasih sudah memilih, Lani! Aku punya hadiah spesial buat kamu 14 Februari nanti. See you! ✨</p>
         </div>
     </div>
 
-    <script>
-        const noBtn = document.getElementById('noBtn');
-        const questionContent = document.getElementById('questionContent');
-        const answerContent = document.getElementById('answerContent');
-        const music = document.getElementById('bgMusic');
-        let clickCount = 0;
+    <audio id="romanticMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
 
-        // Fungsi Tombol "Nggak" Menghindar
-        function moveNo() {
-            clickCount++;
+    <script>
+        let clickCount = 0; // Variabel untuk menghitung interaksi
+
+        function moveNo(e) {
+            if (e && e.type === 'touchstart') e.preventDefault();
+
+            clickCount++; // Tambah hitungan setiap kali disentuh/hover
             
-            // Ubah teks tombol jika terus-terusan dikejar
+            const btn = document.getElementById('noBtn');
+            
+            // Logika memunculkan tulisan setelah lebih dari 2 kali percobaan
             if (clickCount > 2) {
-                noBtn.innerText = "Eits, gabisa! 😝";
+                // Gunakan alert atau ganti teks tombol
+                btn.innerText = "Eits, harus mau dongg! 😝";
             }
 
-            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            const maxX = window.innerWidth - btn.offsetWidth - 20;
+            const maxY = window.innerHeight - btn.offsetHeight - 20;
 
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
             
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-            noBtn.style.zIndex = '999';
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            btn.style.zIndex = '999';
         }
 
-        // Fungsi Setelah Klik "Mau"
-        function celebrate() {
-            // Sembunyikan pertanyaan, munculkan sukses
-            questionContent.classList.add('hidden');
-            answerContent.classList.remove('hidden');
+        function showLove() {
+            document.getElementById('questionContent').classList.add('hidden');
+            document.getElementById('answerContent').classList.remove('hidden');
             
-            // Putar Musik
+            const music = document.getElementById('romanticMusic');
             music.play().catch(e => console.log("Musik butuh interaksi user"));
 
-            // Ubah Background menjadi lebih cerah
             document.body.style.background = "radial-gradient(circle, #ffafbd, #ffc3a0)";
-            
-            // Alert Lucu
-            setTimeout(() => {
-                alert("Jawaban yang sangat pintar! 🤭💖");
-            }, 500);
-
-            // Efek Hujan Hati
-            setInterval(createHeart, 300);
-        }
-
-        // Fungsi Membuat Hujan Hati
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('falling-heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.top = '-20px';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            heart.style.opacity = Math.random();
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            
-            document.body.appendChild(heart);
-            
-            // Hapus elemen hati setelah jatuh agar tidak berat
-            setTimeout(() => { heart.remove(); }, 5000);
+            alert("Jawaban yang pintar! 🤭");
         }
     </script>
 </body>
+
 </html>
+
+
+
+
